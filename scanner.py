@@ -304,7 +304,7 @@ def scanSingleManifest( path_to_script ):
     for key in dict_secret:
         line_number = parser.show_line_for_paths(path_to_script, key)
         for line in line_number:
-            print(line)
+            #print(line)
             secret, template_secret, valid_taint = graphtaint.mineSecretGraph(path_to_script, yaml_dict, dict_secret)
             '''Included valid taints in attachments []'''
             result= Result(rule_id='SLIKUBE_09',rule_index= 8, level='error',attachments = [valid_taint] ,message=Message(text=" Hard-coded Secret"))
@@ -640,7 +640,7 @@ def runScanner(dir2scan):
         Need to filter out `.github/workflows.yml files` first 
         '''
         if(parser.checkIfWeirdYAML ( yml_  )  == False): 
-            print ("\n\n--------------- FILE --------------\n\t-->",yml_)
+            #print ("\n\n--------------- FILE --------------\n\t-->",yml_)
             if( ( parser.checkIfValidK8SYaml( yml_ ) ) or (  parser.checkIfValidHelm( yml_ ) ) ) and parser.checkParseError( yml_) :
                 # print (" \n\n--------------- FILE RUNNING NOW---------------")
                 # print (yml_)
@@ -649,70 +649,70 @@ def runScanner(dir2scan):
                 k8s_flag              = parser.checkIfValidK8SYaml(yml_)
                 if (helm_flag):
                     helm_chart.append(yml_)
-                    print("HELM Chart")
+                    #print("HELM Chart")
 
                 if (k8s_flag):
                     k8s_yaml.append(yml_)
-                    print("Kubernetes YAML")
+                    #print("Kubernetes YAML")
                 
                 val_cnt = val_cnt + 1 
-                print(constants.ANLYZING_KW + yml_ + constants.COUNT_PRINT_KW + yml_ +str(val_cnt) )
+                #print(constants.ANLYZING_KW + yml_ + constants.COUNT_PRINT_KW + yml_ +str(val_cnt) )
                
-                print("get valid taint secrets")
+                #print("get valid taint secrets")
                 within_secret_, templ_secret_, valid_taint_secr  = scanSingleManifest( yml_ )
 
 
-                print("get privileged security contexts")
+                #print("get privileged security contexts")
                 valid_taint_privi  = scanForOverPrivileges( yml_ )
                
-                print("get insecure HTTP")            
+                #print("get insecure HTTP")            
                 http_dict             = scanForHTTP( yml_ )
                
-                print("get missing security context") 
+                #print("get missing security context") 
                 absentSecuContextDict = scanForMissingSecurityContext( yml_ )
                
-                print("get use of default namespace") 
+                #print("get use of default namespace") 
                 defaultNameSpaceDict  = scanForDefaultNamespace( yml_ )
                
-                print("get missing resource limit")
+                #print("get missing resource limit")
                 absentResourceDict    = scanForResourceLimits( yml_ )
 
-                print("get absent rolling update count") 
+                #print("get absent rolling update count") 
                 rollingUpdateDict     = scanForRollingUpdates( yml_ )
 
-                print("get absent network policy count") 
+                #print("get absent network policy count") 
                 absentNetPolicyDic    = scanForMissingNetworkPolicy( yml_ )
 
-                print(" get hostPIDs where True is assigned ")
+                #print(" get hostPIDs where True is assigned ")
                 pid_dic               = scanForTruePID( yml_ )
 
-                print("get hostIPCs where True is assigned") 
+                #print("get hostIPCs where True is assigned") 
                 ipc_dic               = scanForTrueIPC( yml_ )
                 
-                print("scan for docker sock paths: /var.run/docker.sock") 
+                #print("scan for docker sock paths: /var.run/docker.sock") 
                 dockersock_dic        = scanDockerSock( yml_ )
 
-                print("scan for hostNetwork where True is assigned ")
+                #print("scan for hostNetwork where True is assigned ")
                 host_net_dic          = scanForHostNetwork( yml_ )
                 
-                print("scan for CAP SYS") 
+                #print("scan for CAP SYS") 
                 cap_sys_dic           = scanForCAPSYS( yml_ )
                 
-                print("scan for Host Aliases") 
+                #print("scan for Host Aliases") 
                 host_alias_dic        = scanForHostAliases( yml_ )
                 
-                print("scan for allowPrivilegeEscalation") 
+                #print("scan for allowPrivilegeEscalation") 
                 allow_privi_dic       = scanForAllowPrivileges( yml_ )
                 
-                print("scan for unconfied seccomp ")
+                #print("scan for unconfied seccomp ")
                 unconfied_seccomp_dict= scanForUnconfinedSeccomp( yml_ )
                 
-                print(" scan for cap sys module ")
+                #print(" scan for cap sys module ")
                 cap_module_dic        = scanForCAPMODULE( yml_ )
                 # need the flags to differentiate legitimate HELM and K8S flags 
                 
-                print (" \n\n---------------END FILE RUNNING--------------")
-                print(constants.SIMPLE_DASH_CHAR )
+                #print (" \n\n---------------END FILE RUNNING--------------")
+                #print(constants.SIMPLE_DASH_CHAR )
                 
                 #print(yml_)
                 
@@ -726,10 +726,10 @@ def runScanner(dir2scan):
 
                 all_content.append( ( dir2scan, yml_, within_secret_, templ_secret_, valid_taint_secr, valid_taint_privi, http_dict, absentSecuContextDict, defaultNameSpaceDict, absentResourceDict, rollingUpdateDict, absentNetPolicyDic, pid_dic, ipc_dic, dockersock_dic, host_net_dic, cap_sys_dic, host_alias_dic, allow_privi_dic, unconfied_seccomp_dict, cap_module_dic, k8s_flag, helm_flag ) )
             else:
-                print("Invalid YAML --> ",yml_)
+                #print("Invalid YAML --> ",yml_)
                 invalid_yaml.append(yml_)
         else:
-            print(" Weird YAML --> ",yml_)
+            #print(" Weird YAML --> ",yml_)
             weird_yaml.append(yml_)
 
         sarif_json = to_json(sarif_log)

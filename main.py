@@ -62,7 +62,7 @@ def main(directory: Path = typer.Argument(..., exists=True, help="Absolute path 
     sarif_outfile = Path(directory, "slikube_results.sarif")
 
     with open(sarif_outfile, "w") as f:
-        print(sarif_json)
+        #print(sarif_json)
         f.write(sarif_json)
 
     df_all          = pd.DataFrame( getCountFromAnalysis( content_as_ls ) )

@@ -148,13 +148,13 @@ def checkParseError( path_script ):
                 pass
         except ruamel.yaml.parser.ParserError as parse_error:
             flag = False
-            print(constants.YAML_SKIPPING_TEXT)           
+            #print(constants.YAML_SKIPPING_TEXT)           
         except ruamel.yaml.error.YAMLError as exc:
             flag = False
-            print( constants.YAML_SKIPPING_TEXT  )    
+            #print( constants.YAML_SKIPPING_TEXT  )    
         except UnicodeDecodeError as err_: 
             flag = False
-            print( constants.YAML_SKIPPING_TEXT  )
+            #print( constants.YAML_SKIPPING_TEXT  )
     return flag
 
 def loadMultiYAML( script_ ):
@@ -320,7 +320,7 @@ def show_line_for_paths(  filepath, key): #key_jsonpath_mapping is a global dict
     env_PATH = r"C:\ProgramData\Chocolatey\bin"
     lines = []
     adjusted_lines = []
-    print("This is the mapping for the Key",key,"--->",key_jsonpath_mapping[key]) 
+    #print("This is the mapping for the Key",key,"--->",key_jsonpath_mapping[key]) 
     # for k in key_jsonpath_mapping:
     #     print("Key--->",k, "Value--->",key_jsonpath_mapping[k])
     if key_jsonpath_mapping.get(key) is not None:
@@ -337,7 +337,7 @@ def show_line_for_paths(  filepath, key): #key_jsonpath_mapping is a global dict
                 for line in output:
                     line.replace("\n","")
                     line_convert = int(line)
-                    print(type(line_convert))
+                    #print(type(line_convert))
                     if(line_convert >0):
                         line_number = line_convert + count_initial_comment_line(filepath)
                         lines.append(line_number)
